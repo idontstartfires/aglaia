@@ -1,0 +1,20 @@
+#!/bin/python
+
+from sys import argv
+import weather
+
+
+if __name__ == '__main__':
+
+    args = iter(argv[1:]) 
+    first = next(args, None)
+
+    if not first:
+        print('give me verb')
+
+    if first == 'cache':
+        weather.fetch()
+
+    if first == 'report':
+        report = weather.Report()
+        print(report)
