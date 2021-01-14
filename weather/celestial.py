@@ -18,11 +18,11 @@ class Sun(CelestialBody):
     def period(self):
         now = dt.now()
         tr = td(minutes=10)
-        if self.up + tr < now < self.down - tr:
+        if self.arrival + tr < now < self.departure - tr:
             return 'day'
-        if self.up - tr < now < self.up + tr:
+        if self.arrival - tr < now < self.arrival + tr:
             return 'dawn'
-        if self.down - tr < now < self.down + tr:
+        if self.departure - tr < now < self.departure + tr:
             return 'dusk'
         else:
             return 'night'

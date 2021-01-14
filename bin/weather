@@ -18,3 +18,9 @@ if __name__ == '__main__':
     if first == 'report':
         report = weather.Report()
         print(report)
+
+    if first == 'theme':
+        report = weather.Report()
+        description = report.current.description.simple
+        period = report.sun.period
+        print(description, period)

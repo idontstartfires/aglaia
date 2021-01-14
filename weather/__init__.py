@@ -1,6 +1,6 @@
 import api, os
 from geo import GeoPoint as gp
-from files import cache
+from files import CACHE
 from datetime import datetime as dt
 
 from .celestial import Sun
@@ -18,11 +18,11 @@ class Description:
 
 
 class Hour:
-    
+
     def __init__(self, data):
         self.temp = Temp(data.pop('temp'), 'F')
-        self.temp_feel = Temp(data.pop('feels_like'), 'F')
-        
+        self.feel = Temp(data.pop('feels_like'), 'F')
+
         self.pressure   = Pressure(data.pop('pressure'), 'hPa')
         self.humidity   = Humidity(data.pop('humidity'))
         self.dewpoint   = Temp(data.pop('dew_point'), 'F')
@@ -42,7 +42,7 @@ class Hour:
                               for cat in ('rain', 'snow') if cat in data.keys()]
 
     def __str__(self):
-        return f'{self.temp}'
+        return f'{round(self.temp.convert("C"), 2)}'
 
 
 class Report:
@@ -70,12 +70,12 @@ def fetch():
         APPID=os.environ["WEATHER_KEY"], **dict(gp.fetch()), units='imperial'
     ).json()
     # open cache file for writing and dump to cache
-    cache.dump_json('weather.json', response)
+    CACHE.save('weather.json', response)
     # return the response in case we still want it
     return response
 
 
 def load():
-    data = cache.load_json('weather.json')
+    data = CACHE.load('weather.json')
     # otherwise, fetch, cache, and return new weather data
     return data or fetch()

@@ -1,5 +1,5 @@
 import math
-from utils import Measure, Percentage, Vector
+from common.math import Measure, Percentage, Vector
 
 
 class Temp(Measure): pass

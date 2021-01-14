@@ -1,16 +1,27 @@
 import math
 
+from common.units import Unit
+
 
 class Measure:
 
-    def __init__(self, value, unit):
-        self.value, self.unit = value, unit
+    def __init__(self, value, symbol):
+        self.value, self.symbol = value, symbol
 
-    def __round__(self, p):
-        return self.__class__(round(self.value, p), self.unit)
+    @property
+    def unit(self):
+        return Unit(self.symbol)
+
+    def __round__(self, p=None):
+        return self.__class__(round(self.value, p), self.symbol)
 
     def __str__(self):
-        return f'{self.value}{self.unit}'
+        return f'{self.value}{self.symbol}'
+
+    def convert(self, symbol):
+        conversion = self.unit.conversion(Unit(symbol))
+        value = conversion(self.value)
+        return self.__class__(value=value, symbol=symbol)
 
 
 class Percentage(Measure):
